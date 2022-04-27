@@ -49,4 +49,8 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.2'
 
 //    implementation 'com.github.yuriy-budiyev:code-scanner:2.1.2'
+
+    implementation ("com.khalti:khalti-android:2.01.02") {
+        transitive = true
+    }
 }
