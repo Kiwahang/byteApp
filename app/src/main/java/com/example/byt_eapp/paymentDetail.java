@@ -1,5 +1,6 @@
 package com.example.byt_eapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,11 +18,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.material.navigation.NavigationBarView;
+import com.khalti.checkout.helper.Config;
+import com.khalti.checkout.helper.KhaltiCheckOut;
+import com.khalti.checkout.helper.OnCheckOutListener;
+import com.khalti.utils.Constant;
+import com.khalti.widget.KhaltiButton;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class paymentDetail extends AppCompatActivity {
 
@@ -29,8 +36,8 @@ public class paymentDetail extends AppCompatActivity {
     public static EditText edtTxtDate, edtTxtTime;
 
     public static Spinner spinnerFrom, spinnerTo;
+    public static Button payment_modal;
 
-    public static Button btnBuy;
     Connection connect;
     String ConnectionResult = "";
 
@@ -121,7 +128,7 @@ public class paymentDetail extends AppCompatActivity {
             }
         });
 
-        btnBuy.setOnClickListener(new View.OnClickListener() {
+        payment_modal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String from_destination = spinnerFrom.getSelectedItem().toString();
@@ -138,10 +145,12 @@ public class paymentDetail extends AppCompatActivity {
                 editor.putString("actual_amount",actual_amount);
                 editor.putString("total_amount",total_amount);
                 editor.apply();
-                Intent intent = new Intent(paymentDetail.this,Ticket.class);
-                startActivity(intent);
+                KhaltiPayDialog dialog = new KhaltiPayDialog();
+                dialog.show(getSupportFragmentManager(),"paymentMethod");
             }
         });
+
+
     }
 
     public void fillSpinner(String destination,Spinner spinner_name){
@@ -175,6 +184,8 @@ public class paymentDetail extends AppCompatActivity {
         }
     }
 
+
+
     private void initViews() {
         txtBusNo = findViewById(R.id.txtBusN);
         txtBusName =findViewById(R.id.txtBusName);
@@ -188,7 +199,6 @@ public class paymentDetail extends AppCompatActivity {
 
         spinnerFrom = findViewById(R.id.spinnerFrom);
         spinnerTo = findViewById(R.id.spinnerTo);
-
-        btnBuy = findViewById(R.id.btnBuy);
+        payment_modal = findViewById(R.id.payment_modal);
     }
 }

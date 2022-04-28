@@ -29,6 +29,7 @@ import java.sql.Statement;
     private ConstraintLayout parent;
      Connection connect;
      String ConnectionResult = "";
+     int p_id;
 
 
 
@@ -58,8 +59,6 @@ import java.sql.Statement;
 //                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
 //                startActivity(intent);
 //                finish();
-                String msg = "";
-                Boolean isSuccess = false;
                 String email = edtTxtEmail.getText().toString();
                 String password = edtTxtPassword.getText().toString();
                 if(email.isEmpty()){
@@ -78,7 +77,9 @@ import java.sql.Statement;
                             Statement statement = connect.createStatement();
                             ResultSet rs = statement.executeQuery(query);
                             int i = 0;
+
                             while (rs.next()) {
+                                p_id=rs.getInt("passenger_id");
                                 i++;
                             }
 
@@ -89,6 +90,7 @@ import java.sql.Statement;
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.putString("email",email);
                                 editor.putString("password",password);
+                                editor.putInt("id",p_id);
                                 editor.apply();
                                 Toast.makeText(MainActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
@@ -101,7 +103,6 @@ import java.sql.Statement;
                             }
 
                         } else {
-                            isSuccess = false;
                             ConnectionResult = "check connection";
                         }
                         connect.close();
